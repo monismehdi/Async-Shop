@@ -1,0 +1,130 @@
+{
+  "products": [
+    { 
+        "productId": 1, "name": "HP Pavilion Laptop",  "price": 45000, "other_details": {
+            "Brand": "HP",
+            "Processor": "i5",
+            "generation": "12th Gen",
+            "RAM": "8GB",
+            "Storage": "512GB SSD"
+        }
+    },
+    { 
+        "productId": 2, "name": "DELL Inspiron Laptop",  "price": 50000, "other_details": {
+            "Brand": "DELL",
+            "Processor": "i5",
+            "generation": "14th Gen",
+            "RAM": "8GB",
+            "Storage": "256GB SSD"
+        }
+    },
+    { 
+        "productId": 3, "name": "Lenovo ThinkBook",  "price": 55000, "other_details": {
+            "Brand": "Lenovo",
+            "Processor": "Ryzen 5",
+            "generation": "6000 Series",
+            "RAM": "8GB",
+            "Storage": "512GB SSD"
+        }
+    },
+    { 
+        "productId": 4, "name": "ASUS VivoBook",  "price": 48000, "other_details": {
+            "Brand": "ASUS",
+            "Processor": "i5",
+            "generation": "13th Gen",
+            "RAM": "8GB",
+            "Storage": "256GB SSD"
+        }
+    },
+    { 
+        "productId": 5, "name": "Apple MacBook Air M2",  "price": 99000, "other_details": {
+            "Brand": "Apple",
+            "Processor": "M2",
+            "generation": "Latest",
+            "RAM": "8GB",
+            "Storage": "256GB SSD"
+        }
+    },
+    { 
+        "productId": 6, "name": "Samsung Galaxy Book",  "price": 62000, "other_details": {
+            "Brand": "Samsung",
+            "Processor": "i7",
+            "generation": "12th Gen",
+            "RAM": "8GB",
+            "Storage": "512GB SSD"
+        }
+    },
+    { 
+        "productId": 7, "name": "Acer Aspire 5",  "price": 42000, "other_details": {
+            "Brand": "Acer",
+            "Processor": "Ryzen 5",
+            "generation": "5000 Series",
+            "RAM": "8GB",
+            "Storage": "256GB SSD"
+        }
+    },
+    { 
+        "productId": 8, "name": "MSI Modern 14",  "price": 68000, "other_details": {
+            "Brand": "MSI",
+            "Processor": "i7",
+            "generation": "13th Gen",
+            "RAM": "16GB",
+            "Storage": "512GB SSD"
+        }
+    },
+    { 
+        "productId": 9, "name": "HP Envy x360",  "price": 72000, "other_details": {
+            "Brand": "HP",
+            "Processor": "i7",
+            "generation": "12th Gen",
+            "RAM": "16GB",
+            "Storage": "512GB SSD"
+        }
+    },
+    { 
+        "productId": 10, "name": "DELL XPS 13",  "price": 85000, "other_details": {
+            "Brand": "DELL",
+            "Processor": "i7",
+            "generation": "13th Gen",
+            "RAM": "16GB",
+            "Storage": "512GB SSD"
+        }
+    },
+    { 
+        "productId": 11, "name": "Lenovo Legion 5",  "price": 75000, "other_details": {
+            "Brand": "Lenovo",
+            "Processor": "i7",
+            "generation": "12th Gen",
+            "RAM": "16GB",
+            "Storage": "512GB SSD"
+        }
+    },
+    { 
+        "productId": 12, "name": "ASUS ROG Gaming Laptop",  "price": 95000, "other_details": {
+            "Brand": "ASUS",
+            "Processor": "i9",
+            "generation": "13th Gen",
+            "RAM": "32GB",
+            "Storage": "1TB SSD"
+        }
+    },
+    { 
+        "productId": 13, "name": "Microsoft Surface Laptop",  "price": 88000, "other_details": {
+            "Brand": "Microsoft",
+            "Processor": "i7",
+            "generation": "12th Gen",
+            "RAM": "16GB",
+            "Storage": "512GB SSD"
+        }
+    },
+    { 
+        "productId": 14, "name": "Razer Book 13",  "price": 92000, "other_details": {
+            "Brand": "Razer",
+            "Processor": "i7",
+            "generation": "12th Gen",
+            "RAM": "16GB",
+            "Storage": "512GB SSD"
+        }
+    }
+  ]
+}

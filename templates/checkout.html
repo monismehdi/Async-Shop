@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Checkout — Ecom Platform</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+        body { font-family: Arial, sans-serif; background:#f5f7fb; margin:0; padding:24px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h1 { color: #333; margin-bottom: 24px; }
+        .checkout-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .section { background: white; border: 1px solid #e1e4ea; border-radius: 8px; padding: 24px; }
+        .section h2 { color: #333; margin-top: 0; border-bottom: 2px solid #0078d4; padding-bottom: 12px; }
+        .form-group { margin-bottom: 16px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        label { display: block; font-weight: 600; color: #333; margin-bottom: 6px; }
+        input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select {
+            width: 100%; padding: 10px; border: 1px solid #ccd6e6; border-radius: 6px; font-size: 14px;
+        }
+        input:focus, select:focus { outline: none; border-color: #0078d4; box-shadow: 0 0 0 3px rgba(0,120,212,0.1); }
+        .error-message { color: #dc3545; font-size: 13px; margin-top: 4px; }
+        .order-summary { }
+        .order-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+        .order-item:last-child { border-bottom: none; }
+        .item-name { font-weight: 600; color: #333; }
+        .item-price { color: #0078d4; }
+        .summary-row { display: flex; justify-content: space-between; padding: 12px 0; font-size: 16px; }
+        .summary-row.total { font-weight: 700; font-size: 18px; color: #0078d4; border-top: 2px solid #f0f0f0; padding-top: 16px; margin-top: 16px; }
+        .payment-methods { display: grid; gap: 12px; margin-top: 12px; }
+        .payment-option { display: flex; align-items: center; padding: 12px; border: 2px solid #e1e4ea; border-radius: 6px; cursor: pointer; }
+        .payment-option input[type="radio"] { margin-right: 12px; cursor: pointer; }
+        .payment-option:has(input:checked) { border-color: #0078d4; background: rgba(0,120,212,0.05); }
+        .btn-submit { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 16px; cursor: pointer; margin-top: 24px; transition: background 0.2s; }
+        .btn-submit:hover { background: #218838; }
+        .btn-back { display: inline-block; margin-bottom: 20px; padding: 10px 16px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; }
+        .btn-back:hover { background: #5a6268; }
+        .alert { padding: 12px 16px; border-radius: 6px; margin-bottom: 20px; }
+        .alert.error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        @media (max-width: 768px) {
+            .checkout-wrapper { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{{ url_for('view_cart') }}" class="btn-back">← Back to Cart</a>
+        
+        <h1>Checkout</h1>
+
+        {% if error %}
+            <div class="alert error">{{ error }}</div>
+        {% endif %}
+
+        <div class="checkout-wrapper">
+            <div>
+                <form method="POST" id="checkoutForm">
+                    <div class="section">
+                        <h2>Billing Information</h2>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first_name">First Name *</label>
+                                <input type="text" id="first_name" name="first_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last_name">Last Name *</label>
+                                <input type="text" id="last_name" name="last_name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                            <div id="emailError" class="error-message"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2>Shipping Address</h2>
+
+                        <div class="form-group">
+                            <label for="address">Street Address *</label>
+                            <input type="text" id="address" name="address" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City *</label>
+                                <input type="text" id="city" name="city" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="state">State *</label>
+                                <input type="text" id="state" name="state" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="zip_code">ZIP Code *</label>
+                            <input type="text" id="zip_code" name="zip_code" pattern="[0-9]{5,6}" required>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2>Payment Method</h2>
+
+                        <div class="payment-methods">
+                            <label class="payment-option">
+                                <input type="radio" name="payment_method" value="credit_card" required checked>
+                                <span>Credit Card (Visa, Mastercard, Amex)</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment_method" value="debit_card" required>
+                                <span>Debit Card</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment_method" value="net_banking" required>
+                                <span>Net Banking</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment_method" value="upi" required>
+                                <span>UPI / Digital Wallet</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment_method" value="cod" required>
+                                <span>Cash on Delivery</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Complete Purchase (₹{{ total }})</button>
+                </form>
+            </div>
+
+            <div>
+                <div class="section order-summary">
+                    <h2>Order Summary</h2>
+
+                    {% for item in cart %}
+                        <div class="order-item">
+                            <div>
+                                <div class="item-name">{{ item.name }}</div>
+                                <div style="color: #6b7280; font-size: 14px;">Qty: {{ item.quantity }}</div>
+                            </div>
+                            <div class="item-price">₹{{ item.price * item.quantity }}</div>
+                        </div>
+                    {% endfor %}
+
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span>₹{{ total }}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping:</span>
+                        <span>₹0 (Free)</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax (18% GST):</span>
+                        <span>₹{{ (total * 0.18) | int }}</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total Amount:</span>
+                        <span>₹{{ ((total * 1.18) | int) }}</span>
+                    </div>
+
+                    <div style="margin-top: 20px; padding: 12px; background: #e8f4f8; border-radius: 6px; color: #0c5460;">
+                        <strong>Note:</strong> Your order will be confirmed after payment is processed successfully.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('checkoutForm');
+        const emailInput = document.getElementById('email');
+        const emailError = document.getElementById('emailError');
+
+        emailInput.addEventListener('blur', validateEmail);
+        form.addEventListener('submit', validateForm);
+
+        function validateEmail() {
+            const email = emailInput.value;
+            if (!email) {
+                emailError.textContent = '';
+                return;
+            }
+
+            fetch('/api/validate-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                emailError.textContent = data.valid ? '' : 'Please enter a valid email address';
+            })
+            .catch(error => {
+                console.error('Error validating email:', error);
+            });
+        }
+
+        function validateForm(e) {
+            const requiredFields = ['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'state', 'zip_code'];
+            let isValid = true;
+
+            for (let field of requiredFields) {
+                const input = document.getElementById(field);
+                if (!input.value.trim()) {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            if (emailError.textContent) {
+                isValid = false;
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fill all required fields correctly');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{ product.name | default("Product") }} — Details</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 24px; }
+        .card { border: 1px solid #ddd; padding: 16px; border-radius: 6px; max-width: 720px; }
+        .header { display:flex; justify-content:space-between; align-items:center; }
+        .meta { color: #555; margin-top: 8px; }
+        dl { margin: 12px 0; }
+        dt { font-weight: 600; }
+        dd { margin: 0 0 8px 0; color: #333; }
+        a { color: #0066cc; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <h1>{{ product.name | default("Unnamed Product") }}</h1>
+            <div>
+                <strong>₹{{ product.price if product.price is not none else "N/A" }}</strong>
+            </div>
+        </div>
+
+        <div class="meta">
+            Product ID: {{ product.productId or product.get("productId") or "N/A" }}
+        </div>
+
+        {% if product.other_details %}
+            <h3>Details</h3>
+            <dl>
+                {% for key, val in product.other_details.items() %}
+                    <dt>{{ key }}</dt>
+                    <dd>{{ val }}</dd>
+                {% endfor %}
+            </dl>
+        {% elif product.get('description') %}
+            <h3>Description</h3>
+            <p>{{ product.description }}</p>
+        {% else %}
+            <p>No additional details available.</p>
+        {% endif %}
+
+        <p>
+            <a href="{{ url_for('browse_products') }}">← Back to products</a>
+            &nbsp;|&nbsp;
+            <a href="{{ url_for('home') }}">Home</a>
+        </p>
+    </div>
+</body>
+</html>
+```// filepath: c:\Users\Hackathon2\Desktop\Ecom_platform\templates\show_product.html
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{ product.name | default("Product") }} — Details</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 24px; }
+        .card { border: 1px solid #ddd; padding: 16px; border-radius: 6px; max-width: 720px; }
+        .header { display:flex; justify-content:space-between; align-items:center; }
+        .meta { color: #555; margin-top: 8px; }
+        dl { margin: 12px 0; }
+        dt { font-weight: 600; }
+        dd { margin: 0 0 8px 0; color: #333; }
+        a { color: #0066cc; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <h1>{{ product.name | default("Unnamed Product") }}</h1>
+            <div>
+                <strong>₹{{ product.price if product.price is not none else "N/A" }}</strong>
+            </div>
+        </div>
+
+        <div class="meta">
+            Product ID: {{ product.productId or product.get("productId") or "N/A" }}
+        </div>
+
+        {% if product.other_details %}
+            <h3>Details</h3>
+            <dl>
+                {% for key, val in product.other_details.items() %}
+                    <dt>{{ key }}</dt>
+                    <dd>{{ val }}</dd>
+                {% endfor %}
+            </dl>
+        {% elif product.get('description') %}
+            <h3>Description</h3>
+            <p>{{ product.description }}</p>
+        {% else %}
+            <p>No additional details available.</p>
+        {% endif %}
+
+        <p>
+            <a href="{{ url_for('browse_products') }}">← Back to products</a>
+            &nbsp;|&nbsp;
+            <a href="{{ url_for('home') }}">Home</a>
+        </p>
+    </div>
+</body>

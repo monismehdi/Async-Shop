@@ -1,0 +1,115 @@
+Use Case #31 – E-commerce Platform
+1. Purpose
+
+Consumers increasingly expect seamless digital shopping experiences with personalized recommendations and flexible payment options. This project will deliver a modern e-commerce platform enabling users to browse products, add items to a cart, and complete purchases efficiently. Success is measured by users easily finding and buying products, receiving relevant recommendations, and experiencing reliable, secure transactions.
+
+2. Scope (MVP)
+In Scope:
+
+Product browsing and search
+Shopping cart and checkout
+Personalized product recommendations (simulated)
+Multiple payment methods (credit/debit, PayPal)
+Inventory and order management
+
+Out of Scope (Explicit):
+
+Third-party seller onboarding
+Advanced AI recommendation engine
+Mobile app
+
+Notes:
+
+Recommendation engine may use rule-based or simulated logic for MVP.
+Payment gateway integration will use sandbox/test credentials.
+
+3. Users & Personas
+
+Persona A: Shopper. Goals: Find products, compare, purchase easily. Pain points: Slow search, confusing checkout, irrelevant recommendations.
+Persona B: Admin. Goals: Monitor inventory, view orders. Constraints: No access to customer PII, cannot edit orders.
+
+4. User Stories (Prioritized)
+
+
+
+MoSCoW
+ID
+Story
+Acceptance Criteria
+
+
+
+
+Must
+US1
+As a shopper, I can browse and search products
+Products display with images, details, and filters
+
+
+Must
+US2
+As a shopper, I can add products to my cart and checkout
+Cart updates in real time; checkout completes with payment confirmation
+
+
+Should
+US3
+As a shopper, I receive personalized product recommendations
+Recommendations appear on homepage and product pages
+
+
+Could
+US4
+As a shopper, I can leave product reviews
+Review form available after purchase; reviews display on product pages
+
+
+Won’t
+US5
+As a shopper, I cannot purchase out-of-stock items
+“Out of stock” disables purchase option
+
+
+
+5. Functional Requirements (Behavior-Focused)
+
+FR1. Users can register, sign in, and access their account dashboard.
+FR2. Users can browse, search, and filter products by category, price, and rating.
+FR3. Users can add products to a cart, view/edit cart contents, and proceed to checkout.
+FR4. Users can select from multiple payment methods and complete purchases.
+FR5. System displays personalized recommendations based on browsing/cart history (simulated).
+FR6. Admins can view inventory levels and order status (read-only).
+FR7. Users can view product reviews and ratings.
+
+6. Non-Functional Requirements
+
+
+
+Category
+NFR
+
+
+
+
+Performance
+Web pages load <3s; API responses <2s; DB queries <500ms
+
+
+Scalability
+Supports 10,000+ concurrent users; scalable backend
+
+
+Reliability
+Accurate order processing; error logging; retry flows for failed payments
+
+
+Security
+PCI-DSS compliant payment processing; hashed passwords; JWT authentication
+
+
+Privacy/Compliance
+Mask PII in admin views; display privacy disclaimer
+
+
+Maintainability
+Modular codebase; minimal tech debt; clear documentation

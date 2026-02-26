@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Shopping Cart — Ecom Platform</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+        body { font-family: Arial, sans-serif; background:#f5f7fb; margin:0; padding:24px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { color: #333; margin-bottom: 24px; }
+        .cart-empty { text-align: center; padding: 40px 20px; color: #6b7280; }
+        .cart-items { background: white; border: 1px solid #e1e4ea; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid #f0f0f0; }
+        .cart-item:last-child { border-bottom: none; }
+        .item-info { flex: 1; }
+        .item-name { font-weight: 600; color: #333; margin-bottom: 4px; }
+        .item-price { color: #0078d4; font-weight: 600; }
+        .item-quantity { color: #6b7280; font-size: 14px; }
+        .item-total { font-weight: 600; color: #333; min-width: 100px; text-align: right; }
+        .remove-btn { margin-left: 16px; padding: 8px 12px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; transition: background 0.2s; }
+        .remove-btn:hover { background: #c82333; }
+        .cart-summary { background: white; border: 1px solid #e1e4ea; border-radius: 8px; padding: 20px; }
+        .summary-row { display: flex; justify-content: space-between; padding: 12px 0; font-size: 16px; }
+        .summary-row.total { font-weight: 700; font-size: 18px; color: #0078d4; border-top: 2px solid #f0f0f0; padding-top: 16px; margin-top: 16px; }
+        .checkout-btn { width: 100%; margin-top: 16px; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 16px; cursor: pointer; transition: background 0.2s; }
+        .checkout-btn:hover { background: #218838; }
+        .continue-shopping { text-align: center; margin-top: 16px; }
+        .continue-shopping a { color: #0078d4; text-decoration: none; font-weight: 500; }
+        .nav-links { margin-top: 24px; text-align: center; }
+        .nav-links a { color: #0078d4; text-decoration: none; margin: 0 12px; font-weight: 500; }
+        .toast { position: fixed; top: 20px; right: 20px; background: #28a745; color: white; padding: 12px 20px; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000; }
+        .toast.error { background: #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛒 Shopping Cart</h1>
+
+        {% if cart %}
+            <div class="cart-items">
+                {% for item in cart %}
+                    <div class="cart-item">
+                        <div class="item-info">
+                            <div class="item-name">{{ item.name }}</div>
+                            <div class="item-price">₹{{ item.price }}</div>
+                            <div class="item-quantity">Quantity: {{ item.quantity }}</div>
+                        </div>
+                        <div class="item-total">
+                            ₹{{ item.price * item.quantity }}
+                        </div>
+                        <button class="remove-btn" onclick="removeFromCart({{ item.productId }})">Remove</button>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span>₹{{ total }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping:</span>
+                    <span>₹0 (Free)</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total:</span>
+                    <span>₹{{ total }}</span>
+                </div>
+                <button class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+                <div class="continue-shopping">
+                    <a href="{{ url_for('browse_products') }}">← Continue Shopping</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="cart-empty">
+                <h2>Your cart is empty</h2>
+                <p>Start shopping to add items to your cart.</p>
+                <div class="nav-links">
+                    <a href="{{ url_for('browse_products') }}">Browse Products</a>
+                    <a href="{{ url_for('home') }}">Back to Home</a>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if cart %}
+            <div class="nav-links">
+                <a href="{{ url_for('browse_products') }}">← Back to Products</a>
+                <a href="{{ url_for('home') }}">Home</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function proceedToCheckout() {
+            window.location.href = "{{ url_for('checkout') }}";
+        }
+
+        function removeFromCart(productId) {
+            fetch('/api/cart/remove', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    product_id: productId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast(data.message, true);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    showToast(data.message, false);
+                }
+            })
+            .catch(error => {
+                showToast('Error removing from cart', false);
+                console.error('Error:', error);
+            });
+        }
+
+        function showToast(message, success = true) {
+            const toast = document.createElement('div');
+            toast.className = 'toast' + (success ? '' : ' error');
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

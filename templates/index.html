@@ -1,0 +1,88 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Welcome — Ecom Platform</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: Arial, sans-serif; background:#f5f7fb; margin:0; padding:24px; display:flex; justify-content:center; align-items:center; min-height:100vh; }
+    .panel { background:white; border:1px solid #e1e4ea; border-radius:8px; padding:20px; width:420px; box-shadow:0 6px 18px rgba(30,40,50,0.06); }
+    .tabs { display:flex; gap:8px; margin-bottom:16px; }
+    .tab { flex:1; padding:10px; text-align:center; cursor:pointer; border-radius:6px; background:#f2f6fb; }
+    .tab.active { background:#0078d4; color:#fff; font-weight:600; }
+    form { display:none; }
+    form.active { display:block; }
+    label { display:block; margin:10px 0 6px; font-size:14px; color:#333; font-weight:500; }
+    input[type="text"], input[type="email"], input[type="password"] {
+      width:100%; padding:10px; border:1px solid #ccd6e6; border-radius:6px; box-sizing:border-box; font-size:14px;
+    }
+    input:focus { outline:none; border-color:#0078d4; box-shadow:0 0 0 3px rgba(0,120,212,0.1); }
+    button { margin-top:12px; width:100%; padding:10px; border:0; border-radius:6px; background:#0078d4; color:#fff; font-weight:600; cursor:pointer; font-size:14px; transition:background 0.2s; }
+    button:hover { background:#106ebe; }
+    .muted { color:#6b7280; font-size:13px; margin-top:10px; text-align:center; }
+    .links { margin-top:12px; text-align:center; }
+    a { color:#0078d4; text-decoration:none; }
+    .error-message { background:#f8d7da; border:1px solid #f5c6cb; color:#721c24; padding:12px; border-radius:6px; margin-bottom:12px; font-size:14px; }
+    .demo-info { background:#d1ecf1; border:1px solid #bee5eb; color:#0c5460; padding:12px; border-radius:6px; margin-bottom:16px; font-size:13px; }
+    .demo-info strong { display:block; margin-bottom:6px; }
+  </style>
+</head>
+<body>
+  <div class="panel" role="main">
+    <div class="tabs" role="tablist">
+      <div id="tab-login" class="tab active" role="tab" aria-controls="form-login">Login</div>
+      <div id="tab-signup" class="tab" role="tab" aria-controls="form-signup">Sign up</div>
+    </div>
+
+    {% if error %}
+      <div class="error-message">{{ error }}</div>
+    {% endif %}
+
+    <form id="form-login" class="active" method="post" action="/login" novalidate>
+      <div class="demo-info">
+        <strong>Demo Credentials:</strong>
+        Email: monis@example.com<br>
+        Password: Monis@123
+      </div>
+      <label for="login-email">Email</label>
+      <input id="login-email" name="email" type="email" placeholder="monis@example.com" required />
+      <label for="login-password">Password</label>
+      <input id="login-password" name="password" type="password" placeholder="Monis@123" required minlength="6" />
+      <button type="submit">Log in</button>
+      <div class="muted">Use your account email and password.</div>
+    </form>
+
+    <form id="form-signup" method="post" action="/signup" novalidate>
+      <label for="signup-name">Full name</label>
+      <input id="signup-name" name="name" type="text" placeholder="John Doe" required />
+      <label for="signup-email">Email</label>
+      <input id="signup-email" name="email" type="email" placeholder="john@example.com" required />
+      <label for="signup-password">Password</label>
+      <input id="signup-password" name="password" type="password" placeholder="At least 6 characters" required minlength="6" />
+      <button type="submit">Create account</button>
+      <div class="muted">Password must be at least 6 characters.</div>
+    </form>
+
+    <div class="links">
+      <a href="{{ url_for('browse_products') }}">Browse products</a> ·
+      <a href="{{ url_for('home') }}">Home</a>
+    </div>
+  </div>
+
+  <script>
+    const tabLogin = document.getElementById('tab-login');
+    const tabSignup = document.getElementById('tab-signup');
+    const formLogin = document.getElementById('form-login');
+    const formSignup = document.getElementById('form-signup');
+
+    tabLogin.addEventListener('click', () => {
+      tabLogin.classList.add('active'); tabSignup.classList.remove('active');
+      formLogin.classList.add('active'); formSignup.classList.remove('active');
+    });
+    tabSignup.addEventListener('click', () => {
+      tabSignup.classList.add('active'); tabLogin.classList.remove('active');
+      formSignup.classList.add('active'); formLogin.classList.remove('active');
+    });
+  </script>
+</body>
+</html>

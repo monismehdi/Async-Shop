@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Order Confirmation — Ecom Platform</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+        body { font-family: Arial, sans-serif; background:#f5f7fb; margin:0; padding:24px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .success-box { background: white; border: 1px solid #d4edda; border-radius: 8px; padding: 24px; text-align: center; box-shadow: 0 2px 8px rgba(40,167,69,0.1); }
+        .success-icon { font-size: 48px; margin-bottom: 16px; }
+        h1 { color: #28a745; margin: 16px 0; }
+        .order-number { font-size: 24px; font-weight: 700; color: #0078d4; margin: 16px 0; }
+        .order-details { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 6px; padding: 16px; margin: 24px 0; text-align: left; }
+        .detail-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e9ecef; }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { font-weight: 600; color: #333; }
+        .detail-value { color: #555; }
+        .order-items { background: white; border: 1px solid #e1e4ea; border-radius: 6px; padding: 16px; margin: 24px 0; }
+        .item-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+        .item-row:last-child { border-bottom: none; }
+        .item-name { font-weight: 600; }
+        .item-qty { color: #6b7280; font-size: 14px; }
+        .item-price { color: #0078d4; font-weight: 600; }
+        .total-row { display: flex; justify-content: space-between; padding: 12px 0; font-size: 18px; font-weight: 700; color: #0078d4; border-top: 2px solid #f0f0f0; padding-top: 16px; margin-top: 16px; }
+        .customer-info { background: white; border: 1px solid #e1e4ea; border-radius: 6px; padding: 16px; margin: 24px 0; }
+        .info-header { font-weight: 700; color: #333; margin-bottom: 12px; border-bottom: 2px solid #0078d4; padding-bottom: 8px; }
+        .info-row { padding: 8px 0; color: #555; }
+        .next-steps { background: #e8f4f8; border-left: 4px solid #0078d4; padding: 16px; border-radius: 4px; margin: 24px 0; }
+        .next-steps h3 { margin-top: 0; color: #0c5460; }
+        .next-steps ul { margin: 12px 0; padding-left: 20px; }
+        .next-steps li { margin: 8px 0; color: #0c5460; }
+        .actions { display: flex; gap: 12px; justify-content: center; margin-top: 24px; }
+        .btn { display: inline-block; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; }
+        .btn-primary { background: #0078d4; color: white; }
+        .btn-primary:hover { background: #106ebe; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-secondary:hover { background: #5a6268; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-box">
+            <div class="success-icon">✅</div>
+            <h1>Order Confirmed!</h1>
+            <p>Thank you for your purchase. Your order has been received.</p>
+        </div>
+
+        <div class="order-number">
+            Order ID: <strong>{{ order.order_id }}</strong>
+        </div>
+
+        <div class="customer-info">
+            <div class="info-header">Shipping Address</div>
+            <div class="info-row"><strong>{{ order.customer.first_name }} {{ order.customer.last_name }}</strong></div>
+            <div class="info-row">{{ order.customer.address }}</div>
+            <div class="info-row">{{ order.customer.city }}, {{ order.customer.state }} {{ order.customer.zip_code }}</div>
+            <div class="info-row">Email: {{ order.customer.email }}</div>
+            <div class="info-row">Phone: {{ order.customer.phone }}</div>
+        </div>
+
+        <div class="customer-info">
+            <div class="info-header">Payment Method</div>
+            <div class="info-row">{{ order.customer.payment_method | replace('_', ' ') | title }}</div>
+        </div>
+
+        <div class="order-items">
+            <div class="info-header">Order Items</div>
+            
+            {% for item in order.cart %}
+                <div class="item-row">
+                    <div>
+                        <div class="item-name">{{ item.name }}</div>
+                        <div class="item-qty">Quantity: {{ item.quantity }}</div>
+                    </div>
+                    <div class="item-price">₹{{ item.price * item.quantity }}</div>
+                </div>
+            {% endfor %}
+
+            <div class="total-row">
+                <span>Total Amount:</span>
+                <span>₹{{ ((order.total * 1.18) | int) }}</span>
+            </div>
+        </div>
+
+        <div class="next-steps">
+            <h3>What's Next?</h3>
+            <ul>
+                <li>You will receive an order confirmation email shortly</li>
+                <li>Track your shipment using the order ID provided above</li>
+                <li>Delivery typically takes 3-5 business days</li>
+                <li>Contact our support team if you have any questions</li>
+            </ul>
+        </div>
+
+        <div class="actions">
+            <a href="{{ url_for('browse_products') }}" class="btn btn-primary">Continue Shopping</a>
+            <a href="{{ url_for('home') }}" class="btn btn-secondary">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
