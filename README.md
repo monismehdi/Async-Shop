@@ -1,6 +1,6 @@
 # E-commerce Platform
 
-A complete Flask-based e-commerce platform with product browsing, shopping cart, checkout, and order confirmation.
+A complete Flask-based e-commerce platform with product browsing, shopping cart, checkout, and order confirmation along with login and signup.
 
 ## Features
 
@@ -123,13 +123,13 @@ The platform includes 14 laptop products with specifications:
 - Database integration (PostgreSQL)
 - Payment gateway integration
 - User profiles and order history
-- Product search and filtering
 - Admin dashboard
 - Email notifications
+- Integrating AI based suggestions to user according to the likes
 
 ## Author
 
-Mehdi Monis - UC31 Hackathon Project
+Mehdi Monis - Created for a Hackathon Project
 
 ## License
 
